@@ -1,0 +1,35 @@
+tasks:
+  # downloading task
+  download-rss:
+  	# This is my own RSS, use yours:
+    rss: http://showrss.info/rss.php?user_id=51436&hd=2&proper=1
+    # fetch all the feed series
+    all_series: yes
+    # use transmission to download the torrents
+    transmission:
+      host: localhost
+      port: 9091
+      username: transmission
+      password: transmission
+  # sorting task
+  sort-files:
+    find:
+      # directory with the files to be sorted
+      path: /home/osmc/Downloads/
+      # fetch all avi, mkv and mp4 files, skips the .part files (unfinished torrents)
+      regexp: '.*\.(avi|mkv|mp4)$'
+    accept_all: yes
+    seen: local
+    # this is needed for the episode names
+    thetvdb_lookup: yes
+    all_series:
+      # for some reason all_series rejects all episodes here, even with seen: local, so parse_only must be added
+      parse_only: yes
+    # TVDB doesn't recognise "Adventure Time with Finn and Jake" so you must add such exceptions here manually
+    series:
+      - Adventure Time
+    move:
+      # this is where the series will be put
+      to: /home/osmc/TV Shows/{{ tvdb_series_name }}
+      # save the file as "Series Name - SxxEyy - Episode Name.ext"
+      filename: '{{ tvdb_series_name }} - {{ series_id }} - {{ tvdb_ep_name }}{{ location | pathext }}'`

@@ -1,33 +1,34 @@
-Setup of a **media center** ([OSMC](https://osmc.tv/)) with **automated downloads** ([Transmission](http://www.transmissionbt.com/) + [Flex](http://flexget.com/)) in the background for new TV Shows, films or whatever you want. It's able to configure tasks to automate anything! 
+Setup of a **media center**  with **automated episode/film downloads** in the background.
 
-All the magic possible thanks to **OSMC (media center)+ Transmission (torrent downloads) + Flex (automated taks)**
+- [OSMC](https://osmc.tv/) for the mediacenter through your own TV remote.
+- [Transmission](http://www.transmissionbt.com/) to download torrents
+- [Flex](http://flexget.com/) to automate the episode search and download
 
-
-The main idea is to avoid any manual intervention to watch  your preferred shows, just sit and watch TV.
+Watch TV as soon shows are released without doing anything.
 
 
 ## Requirements
-- A running OSMC ([Download](https://osmc.tv/download/) here).
+- A running OSMC ([Download and install](https://osmc.tv/download/) here, easy as hell).
 - Hardware: A Raspberry Pi (1 or 2), Vero or Apple TV
-- An account in [ShowRSS](https://showrss.info/) or similar RSS service that configures your own feed.
+- An account in [ShowRSS](https://showrss.info/) or similar feed service that configures your own feed.
  
- 
-Tested on OSMC [**release 2015.08-1**](https://osmc.tv/download/images/)
+This setup has been tested in the latest OSMC at the moment of writing: [**release 2015.08-1**](https://osmc.tv/download/images/)
 
 
-## What you get:
+## What you get...
 - A mediacenter that works with your TV remote
 - Your preferred TV Shows as soon as they are available
 - All files when downloaded in their right folder structure
 - Automatic subtitles in your language if you need them
+- All the content can be in a USB to carry it anywhere
 
 Apart from the OSMC, you have the following remote services:
 
-Service  | URL  | User / Password
+Service  | Access  | User / Password
 -------- | ---- | -----------
-Transmission GUI | http://$OSMC_HOST:9091 | transmission / transmission
-Kodi Remote | http://$OSMC_HOST/ | None
-Open SSH | ssh $OSMC_HOST |  osmc/osmc (`sudo` is available)
+Transmission web client | http://$OSMC_HOST:9091 | transmission / transmission
+Kodi Web (Remote) | http://$OSMC_HOST/ | None
+Open SSH | ssh osmc@$OSMC_HOST |  osmc/osmc (`sudo` is available)
 
 **Samba** is not installed. Is not necessary at all since the machine downloads everything. Punctual transfers can be done with `scp`. Raspberry has low RAM and the less services the better (Kodi already consumes a lot of RAM)
 
@@ -37,34 +38,49 @@ When referring to `OSMC_HOST` this is the IP of your Rasperry. e.g:
 
 	OSMC_HOST=192.168.1.135
 	
-# Setup
+# Installation
 
-From your local machine:
+## SSH without password:
+From your local machine (outside the raspberry):
 
-  	
+  	# Put here your raspberry IP:
     OSMC_HOST=192.168.1.135
+    
     # Copy SSH key to OSMC server
     cat ~/.ssh/id_rsa.pub | ssh osmc@$OSMC_HOST 'mkdir -p ~/.ssh; umask 077; cat >>~/.ssh/authorized_keys'
     
-Now SSH to the server:
+Now SSH to the server without password:
 
     ssh osmc@$OSMC_HOST
 
-# Prepare your folder structure
-Omit this section if you want to keep all your data in `/home/osmc` with the current mounted disk.
+Now clone or download this project (or copy the folder) to `/home/omsc/.raspberry-osmc-automated`. If you change the path make sure to adjust the future steps in this readme. This can be done with:
 
-I store all the data in a memory stick. As long as the USB media keeps the same name you can use as many as you want. I don't even change `fstab`.
-
-Example folder is `/media/KINGSTON` which is the default auto mount location of the 64GB Kingston stick I use (18€).
-
+	INSTALLATION_FOLDER=/home/osmc/.raspberry-osmc-automated
 	
-	STORAGE_FOLDER=/media/KINGSTON
+	wget https://github.com/alombarte/raspberry-osmc-automated/archive/master.zip -O raspberry-osmc-automated-master.zip
+	unzip raspberry-osmc-automated-master.zip
+	mv raspberry-osmc-automated-master $INSTALLATION_FOLDER
+	rm raspberry-osmc-automated-master.zip
+	
+	
+# Folder structure
+Omit this section if you want to keep all your data in `/home/osmc` with the current mounted disk (make sure it has enough space). Make sure all services **have write permissions** to the `/home/osmc` folder.
 
-	mkdir -p $STORAGE_FOLDER/{Downloads/Incomplete,Movies,Music,Pictures,"TV Shows"}
+I store all the data in a memory stick. As long as the USB media keeps the same name you can use as many as you want. I don't even change `fstab`. You can mount your own external hard disk too.
 
-	# Delete default folders in home and put symlinks to the USB.
-	sudo rm -fri $STORAGE_FOLDER/{Downloads,Movies,Music,Pictures,"TV Shows"}
-	ln -s $STORAGE_FOLDER/{Downloads,Movies,Music,Pictures,"TV Shows"} ~/
+The example folder is `/media/KINGSTON` which is the default auto mount location of the 64GB Kingston stick I use (18€).
+
+	# Put here the storage location
+	EXTERNAL_STORAGE=/media/KINGSTON
+
+	mkdir -p $EXTERNAL_STORAGE/{Downloads/Incomplete,Movies,Music,Pictures,"TV Shows"}
+
+	# Delete default OSMC media folders in ~home and put symlinks to the USB.
+	sudo rm -fri $EXTERNAL_STORAGE/{Downloads,Movies,Music,Pictures,"TV Shows"}
+	ln -s $EXTERNAL_STORAGE/{Downloads,Movies,Music,Pictures,"TV Shows"} ~/
+	
+	# Add write permission to cosmic group. We will add other users in this group
+	chmod -R 775 /home/osmc
 
 The home directory `/home/omsc` looks like this:
 
@@ -74,92 +90,62 @@ The home directory `/home/omsc` looks like this:
 	lrwxrwxrwx 1 osmc osmc 24 Sep  4 18:54 Pictures -> /media/KINGSTON/Pictures
 	lrwxrwxrwx 1 osmc osmc 24 Sep  4 18:54 TV Shows -> /media/KINGSTON/TV Shows
 	
-- Downloads is for manually added torrents to Transmission
-- TV Shows is where all episodes are downloaded to with the structure `TV Shows/Show name/Season 1/Episode Name`
+### Purpose of the folders:
+
+- `Downloads` is for **manually added** torrents to Transmission only. Otherwise, the automated jobs will put the downloads in the right category.
+- `TV Shows` is where all episodes will be downloaded (using the structure `TV Shows/Show name/Season 1/Episode Name`)
+- The rest seems obvious
 
 
+# Install and configure Transmission
 
-# FlexGet
+Just pass to the bash your network range, e.g: `192.168.1.*`
+
+	bash ~/raspberry-osmc-automated/bash/install_transmission.sh "192.168.1.*"
+
+
+## Install and configure FlexGet
+FlexGet is installed through PIP. 
+
     sudo apt-get install python-pip python-setuptools
+
     # Avoids: pkg_resources.VersionConflict: (six 1.8.0 (/usr/lib/python2.7/dist-packages), Requirement.parse('six>=1.9.0'))
     sudo pip install six --upgrade
+    
     sudo easy_install flexget
+    
+    # Should work, otherwise check dependencies:
     flexget -V
+    
+### Automation of the TV Shows task
+The Real magic happens by configuring this task. Edit the file `/home/osmc/.raspberry-osmc-automated/flex/config.yml` and at least change the `rss` attribute, writing your own RSS feed from ShowRSS or similar.
+
+When the file is saved:
+
     mkdir ~/.flexget
-    cat <<EOF > /home/osmc/.flexget/config.yml
-tasks:
-  # downloading task
-  download-rss:
-    rss: http://showrss.info/rss.php?user_id=51436&hd=2&proper=1
-    # fetch all the feed series
-    all_series: yes
-    # use transmission to download the torrents
-    transmission:
-      host: localhost
-      port: 9091
-      username: transmission
-      password: transmission
-  # sorting task
-  sort-files:
-    find:
-      # directory with the files to be sorted
-      path: /home/osmc/Downloads/
-      # fetch all avi, mkv and mp4 files, skips the .part files (unfinished torrents)
-      regexp: '.*\.(avi|mkv|mp4)$'
-    accept_all: yes
-    seen: local
-    # this is needed for the episode names
-    thetvdb_lookup: yes
-    all_series:
-      # for some reason all_series rejects all episodes here, even with seen: local, so parse_only must be added
-      parse_only: yes
-    # TVDB doesn't recognise "Adventure Time with Finn and Jake" so you must add such exceptions here manually
-    series:
-      - Adventure Time
-    move:
-      # this is where the series will be put
-      to: /home/osmc/TV Shows/{{ tvdb_series_name }}
-      # save the file as "Series Name - SxxEyy - Episode Name.ext"
-      filename: '{{ tvdb_series_name }} - {{ series_id }} - {{ tvdb_ep_name }}{{ location | pathext }}'
-EOF
+    ln -s /home/osmc/.raspberry-osmc-automated/flex/config.yml /home/osmc/.flexget/config.yml
     
-# Samba (TODO)
+**CAUTION**: `.yaml` file cannot contain tabs. Respect indentation using spaces.
+    
+Execute flex get to see ifit's working:
 
-    sudo apt-get install samba
-
-    sudo vi /etc/samba/smb.conf
-    # Change read only to no in [homes] section to write cosmic home folder
-    # read only = no
-
-    sudo smbpasswd osmc
+	/usr/local/bin/flexget exec
     
-# Transmission
-
-    sudo apt-get install transmission-daemon
-    sudo apt-get install python-transmissionrpc
-
-    sudo /etc/init.d/transmission-daemon stop
-    sudo vi /etc/transmission-daemon/settings.json
-    
-    sudo adduser debian-transmission osmc
-    
-    
-    # Add the IPs connecting to http://192.168.1.135:9091/
-    # "rpc-whitelist": "127.0.0.1,192.168.1.*",
-    # Change downloading dirs from/var/lib/transmission-daemon/ to folders with space:
-    sudo sed -i 's@/var/lib/transmission-daemon/downloads@/home/osmc/Downloads@' /etc/transmission-daemon/settings.json
-    sudo sed -i 's@/var/lib/transmission-daemon/Downloads@/home/osmc/Downloads/Incomplete@' /etc/transmission-daemon/settings.json
-    sudo /etc/init.d/transmission-daemon start
-    
-    
-    
-    CRON
+## Setup the crontab
+Now is where everything is automated. Install the cron:
     
 	sudo apt-get install cron
+
+Now add two lines in the crontab.
+
 	crontab -e
-	# ADD:
-	# @hourly /usr/local/bin/flexget --cron execute
-	#@reboot /usr/local/bin/flexget daemon start -d
+	
+And add the following:
+	
+	@hourly /usr/local/bin/flexget --cron execute
+	@reboot /usr/local/bin/flexget daemon start -d
+
+# Setup finished!
 
 # Miscellaneous things
 
