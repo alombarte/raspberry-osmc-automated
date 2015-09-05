@@ -2,7 +2,7 @@ tasks:
   # downloading task
   download-rss:
   	# This is my own RSS, use yours:
-    rss: http://showrss.info/rss.php?user_id=51436&hd=2&proper=1
+    rss: CONFIG_RSS_FEED
     # fetch all the feed series
     all_series: yes
     # use transmission to download the torrents
