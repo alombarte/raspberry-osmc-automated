@@ -23,7 +23,7 @@ SAMPLE_RSS_FEED="http://showrss.info/rss.php?user_id=51436&hd=2&proper=1"
 echo "Starting installation in path $INSTALLATION_FOLDER"
 echo "Press ENTER to proceed or CTRL+C to abort"
 echo "--------------------------------------------------"
-
+readkey CONFIRM
 
 # DOWNLOAD TARBALL
 bash <(curl -s https://raw.githubusercontent.com/alombarte/raspberry-osmc-automated/master/bash/download_tarball.sh) $INSTALLATION_FOLDER
