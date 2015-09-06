@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # You can execute this script with:
-# bash <(curl -s https://raw.githubusercontent.com/alombarte/raspberry-osmc-automated/master/install.sh) /home/osmc/.raspberry-osmc-automated
+# bash <(curl -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -s 'https://raw.githubusercontent.com/alombarte/raspberry-osmc-automated/master/install.sh') /home/osmc/.raspberry-osmc-automated
 
 if [ $# != 1 ]
 then
@@ -24,6 +24,8 @@ echo "Starting installation in path $INSTALLATION_FOLDER"
 echo "Press ENTER to proceed or CTRL+C to abort"
 echo "--------------------------------------------------"
 read CONFIRM
+
+curl -L -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -O 'https://raw.githubusercontent.com/alombarte/raspberry-osmc-automated/master/install.sh'
 
 # DOWNLOAD TARBALL
 bash <(curl -s https://raw.githubusercontent.com/alombarte/raspberry-osmc-automated/master/bash/download_tarball.sh) $INSTALLATION_FOLDER
@@ -71,6 +73,9 @@ fi
 echo "--------------------------------------------------"
 # INSTALLATION BEGIN
 echo "All set. INSTALLING..."
+
+echo "Updating APT repositories"
+sudo apt-get update
 
 # Add write permission to osmc group. We will add other users in this group
 chmod -R 775 /home/osmc

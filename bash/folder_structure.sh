@@ -14,7 +14,7 @@ mkdir -p $EXTERNAL_STORAGE/{Downloads/Incomplete,Movies,Music,Pictures,"TV Shows
 
 echo "Deleting default OSMC folders."
 # Delete default OSMC media folders in ~home and put symlinks to the USB.
-sudo rmdir /home/osmc/{Downloads,Movies,Music,Pictures,"TV Shows"}
+sudo rmdir /home/osmc/{Movies,Music,Pictures,"TV Shows"}
 echo "Recreating folders but pointing to the external storage"
 ln -s $EXTERNAL_STORAGE/{Downloads,Movies,Music,Pictures,"TV Shows"} ~/
 
