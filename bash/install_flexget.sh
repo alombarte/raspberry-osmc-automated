@@ -1,5 +1,14 @@
 #!/bin/bash
-source settings.cfg
+if [ $# != 2 ]
+then
+	echo "Installs and configures flexget in the system."
+	echo "--USAGE: $0 install_path feed"
+	echo "e.g: $0 /home/osmc/.raspberry-osmc-automated 'http://showrss.info/rss.php?user_id=51436'"
+	exit 0
+fi
+
+INSTALLATION_FOLDER=$1
+CONFIG_RSS_FEED=$2
 
 # Dependencies:
 sudo apt-get install python-pip python-setuptools --yes

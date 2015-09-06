@@ -81,7 +81,7 @@ sudo apt-get update
 chmod -R 775 /home/osmc
 
 bash $INSTALLATION_FOLDER/bash/install_transmission.sh $IP_RANGE
-bash $INSTALLATION_FOLDER/bash/install_flexget.sh
+bash $INSTALLATION_FOLDER/bash/install_flexget.sh "$INSTALLATION_FOLDER" "$CONFIG_RSS_FEED"
 bash $INSTALLATION_FOLDER/bash/install_crontab.sh
 bash $INSTALLATION_FOLDER/bash/user_profile.sh
 
