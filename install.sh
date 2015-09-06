@@ -35,9 +35,8 @@ echo "INSTALLATION_FOLDER=$INSTALLATION_FOLDER" >> $SETTINGS_FILE
 echo "--------------------------------------------------"
 echo "Take a few seconds to customize your installation."
 echo ""
-echo "Paste your RSS feed URL or press ENTER to use sample"
+echo "Paste your RSS feed URL below or press ENTER to use sample"
 echo "E.g: : $SAMPLE_RSS_FEED"
-echo "URL:"
 read CONFIG_RSS_FEED
 if [ "$CONFIG_RSS_FEED" == "" ] ; then
 	CONFIG_RSS_FEED=$SAMPLE_RSS_FEED
