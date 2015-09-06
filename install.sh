@@ -26,7 +26,7 @@ echo "--------------------------------------------------"
 
 
 # DOWNLOAD TARBALL
-bash $INSTALLATION_FOLDER/bash/download_tarball.sh $INSTALLATION_FOLDER
+bash <(curl -s https://raw.githubusercontent.com/alombarte/raspberry-osmc-automated/master/bash/download_tarball.sh) $INSTALLATION_FOLDER
 
 # Add installation path to settings
 echo "INSTALLATION_FOLDER=$INSTALLATION_FOLDER" >> $SETTINGS_FILE
