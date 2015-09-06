@@ -7,6 +7,7 @@ sudo apt-get install cron --yes
 cat <<EOF > extra_lines
 @reboot /usr/local/bin/flexget daemon start -d
 @hourly /usr/local/bin/flexget --cron execute
+@hourly wget --header='Content-Type: application/json' --post-data='{"method": "VideoLibrary.Scan", "id":5,"jsonrpc":"2.0"}' http://localhost/jsonrpc -O /dev/null
 EOF
 
 echo "Adding lines to user crontab:"
