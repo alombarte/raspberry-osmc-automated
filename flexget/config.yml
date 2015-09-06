@@ -1,7 +1,7 @@
 tasks:
   # downloading task
   download-rss:
-  	# This is my own RSS, use yours:
+    # This is my own RSS, use yours:
     rss: CONFIG_RSS_FEED
     # fetch all the feed series
     all_series: yes
@@ -32,4 +32,4 @@ tasks:
       # this is where the series will be put
       to: /home/osmc/TV Shows/{{ tvdb_series_name }}
       # save the file as "Series Name - SxxEyy - Episode Name.ext"
-      filename: '{{ tvdb_series_name }} - {{ series_id }} - {{ tvdb_ep_name }}{{ location | pathext }}'`
+      filename: '{{ tvdb_series_name }} - {{ series_id }} - {{ tvdb_ep_name }}{{ location | pathext }}'
