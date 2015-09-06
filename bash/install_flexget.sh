@@ -8,11 +8,12 @@ sudo pip install six --upgrade
 sudo easy_install flexget
 
 # Add FlexGet configuration:
-mkdir ~/.flexget
+mkdir -p ~/.flexget
+mv /home/osmc/.flexget/config.yml /home/osmc/.flexget/config.yml.default
 ln -s $INSTALLATION_FOLDER/flex/config.yml /home/osmc/.flexget/config.yml
 
 # Write user's feed in the .yml
-sed -i "s@rss: CONFIG_RSS_FEED@rss: $CONFIG_RSS_FEED@" $INSTALLATION_FOLDER/flex/config.yml
+sed -i "s@rss: CONFIG_RSS_FEED@rss: $CONFIG_RSS_FEED@" $INSTALLATION_FOLDER/flexget/config.yml
 
 # Works?
 flexget -V
