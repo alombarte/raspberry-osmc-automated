@@ -1,5 +1,4 @@
 #!/bin/bash
-source settings.cfg
 
 if [ $# != 1 ]
 then
