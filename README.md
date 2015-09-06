@@ -1,6 +1,6 @@
 Setup of a **media center**  with **automated episode/film downloads** in the background.
 
-- [OSMC](https://osmc.tv/) for the mediacenter through your own TV remote.
+- [OSMC](https://osmc.tv/) for the mediacenter, interacting with your own TV remote.
 - [Transmission](http://www.transmissionbt.com/) to download torrents
 - [Flex](http://flexget.com/) to automate the episode search and download
 
@@ -8,12 +8,11 @@ Watch TV as soon shows are released without doing anything.
 
 
 ## Requirements
-- A running OSMC ([Download and install](https://osmc.tv/download/) here, easy as hell).
+- A running OSMC ([Download and install](https://osmc.tv/download/) here, easy as hell to install).
 - Hardware: A Raspberry Pi (1 or 2), Vero or Apple TV
 - An account in [ShowRSS](https://showrss.info/) or similar feed service that configures your own feed.
  
 This setup has been tested in the latest OSMC at the moment of writing: [**release 2015.08-1**](https://osmc.tv/download/images/)
-
 
 ## What you get...
 - A mediacenter that works with your TV remote
@@ -44,11 +43,54 @@ Then the installation starts by copy-pasting this line:
 		
 The installation script will download all necessary files and will configure the raspberry for you. During the installation process you will be asked for your `RSS feed` URL, your IP and the mountpoint of your external storage (if any).
 
+**Your mediacenter is ready!**
+
 ### Getting the RSS feed
 If you don't have a RSS you can sign up in a free service like [ShowRSS](http://showrss.info). Once you have done it add some TV Shows to your feed and then get the link by clicking ["Generate" in the feeds section](https://showrss.info/?cs=feeds) 
 
 
+## Extending the configuration
+If you want to tweak on the existing installation, this might help you a little bit. To begin with, all the configuration variables you chose during installation are saved in `/home/osmc/.raspberry-osmc-automated/bash/settings.cfg`. Don't change them because it doesn't have any effect, they are used only during the installation and are there for informative purposes afterwards.
+
+The following paths assume you installed the application under `/home/osmc/.raspberry-osmc-automated`
+### Edit the automation the TV Shows
+The Real magic happens by configuring this task. The default task downloads all episodes to `/home/osmc/TV Shows`, it uses a structure like `TV Shows/Show name/Season 1/Episode Name`
+
+For any changes edit the file:
+
+	/home/osmc/.raspberry-osmc-automated/flex/config.yml
 	
+Then execute flexget to see if it's working:
+
+	/usr/local/bin/flexget exec
+
+
+### Crontab
+If you want to change the frequency of the feed checking, add, or remove jobs just execute:
+
+	crontab -e
+
+### SSH without password:
+If you want to stop typing the password every time you SSH to the Raspberry Pi do the following in your Mac/Linux:
+
+	# Put here your raspberry IP, e.g:
+	OSMC_HOST=192.168.1.10
+	
+	# Copy SSH key to OSMC server
+	cat ~/.ssh/id_rsa.pub | ssh osmc@$OSMC_HOST 'mkdir -p ~/.ssh; umask 077; cat >>~/.ssh/authorized_keys'
+
+
+### Broken locales?
+If you see this message on every login:
+
+	-bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)`
+   
+This is a possible fix:
+
+    sudo locale-gen "en_US.UTF-8"
+    sudo dpkg-reconfigure locales
+    # Choose en_US.UTF-8
+
 ## To-do
 - Spotify plugin
 - Youtube plugin
