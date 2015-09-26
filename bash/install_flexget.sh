@@ -26,3 +26,6 @@ sed -i "s@rss: CONFIG_RSS_FEED@rss: $CONFIG_RSS_FEED@" $INSTALLATION_FOLDER/flex
 
 # Works?
 /usr/local/bin/flexget exec
+
+# Subtitles:
+sudo easy_install periscope
