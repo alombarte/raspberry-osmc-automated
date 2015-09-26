@@ -1,3 +1,13 @@
+# email:
+#   from: someuser@gmail.com
+#   to:
+#     - someuser@gmail.com
+#   smtp_host: smtp.gmail.com
+#   smtp_port: 587
+#   smtp_username: someuser@gmail
+#   smtp_password: XXXXXXX
+#   smtp_tls: yes
+#   template: html
 tasks:
   # downloading task
   download-rss:
@@ -12,7 +22,8 @@ tasks:
       username: transmission
       password: transmission
       path: /home/osmc/Downloads
-    clean_transmission:
+  # Remove completed downloads from Transmission
+  clean_transmission:
       host: localhost
       port: 9091
       username: transmission
