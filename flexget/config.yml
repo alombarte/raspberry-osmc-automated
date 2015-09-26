@@ -22,8 +22,8 @@ tasks:
       username: transmission
       password: transmission
       path: /home/osmc/Downloads
-  # Remove completed downloads from Transmission
-  clean_transmission:
+    # Remove completed downloads from Transmission
+    clean_transmission:
       host: localhost
       port: 9091
       username: transmission
