@@ -19,6 +19,7 @@ tasks:
       path: /home/osmc/Downloads/
       # fetch all avi, mkv and mp4 files, skips the .part files (unfinished torrents)
       regexp: '.*\.(avi|mkv|mp4)$'
+      recursive: yes
     accept_all: yes
     seen: local
     # this is needed for the episode names
