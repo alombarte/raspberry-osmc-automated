@@ -35,4 +35,4 @@ tasks:
       # save the file as "Series Name - SxxEyy - Episode Name.ext"
       filename: '{{ tvdb_series_name }} - {{ series_id }} - {{ tvdb_ep_name }}{{ location | pathext }}'
     # Download subtitles of the Series. Change "es" if you don't want Spanish
-	exec:  /usr/local/bin/periscope -l es "/home/osmc/TV Shows/{{ tvdb_series_name }}/{{ tvdb_series_name }} - {{ series_id }} - {{ tvdb_ep_name }}{{ location | pathext }}"
+    exec:  /usr/local/bin/periscope -l es "/home/osmc/TV Shows/{{ tvdb_series_name }}/{{ tvdb_series_name }} - {{ series_id }} - {{ tvdb_ep_name }}{{ location | pathext }}"
