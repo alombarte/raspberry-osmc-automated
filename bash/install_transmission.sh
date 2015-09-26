@@ -24,4 +24,15 @@ sudo sed -i 's@/var/lib/transmission-daemon/Downloads@/home/osmc/Downloads/Incom
 echo "Transmission access is allowed to range: $NETWORK_RANGE"
 sudo sed -i "s@\"rpc-whitelist\": \"127.0.0.1\"@\"rpc-whitelist\": \"127.0.0.1,$NETWORK_RANGE\"@" /etc/transmission-daemon/settings.json
 
+# Run transmission as "osmc" user to avoid permission problems.
+# Add a local file in case transmission is updated the .conf is not lost.
+sudo mkdir -p /etc/systemd/system/transmission-daemon.service.d/
+cat <<EOF | sudo tee /etc/systemd/system/transmission-daemon.service.d/local.conf
+[Service]
+User = osmc
+EOF
+
+sudo systemctl daemon-reload
+
+# Start daemon
 sudo /etc/init.d/transmission-daemon start
