@@ -12,6 +12,12 @@ tasks:
       username: transmission
       password: transmission
       path: /home/osmc/Downloads
+    clean_transmission:
+      host: localhost
+      port: 9091
+      username: transmission
+      password: transmission
+      finished_for: 1 hours
   # sorting task
   sort-files:
     find:
