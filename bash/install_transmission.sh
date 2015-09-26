@@ -12,9 +12,6 @@ NETWORK_RANGE=$1
 
 sudo apt-get install transmission-daemon python-transmissionrpc --yes
 
-# add transmission user to OSMC group:
-sudo adduser debian-transmission osmc
-
 # Stop daemon to edit settings, otherwise they are rewritten:
 sudo /etc/init.d/transmission-daemon stop
 
