@@ -27,5 +27,6 @@ sed -i "s@rss: CONFIG_RSS_FEED@rss: $CONFIG_RSS_FEED@" $INSTALLATION_FOLDER/flex
 # Works?
 /usr/local/bin/flexget exec
 
-# Subtitles:
+# Subtitles (install both systems):
 sudo easy_install periscope
+sudo pip install subliminal
