@@ -1,12 +1,11 @@
 # email:
-#   from: someuser@gmail.com
+#   from: someuser@gmx.com
 #   to:
-#     - someuser@gmail.com
-#   smtp_host: smtp.gmail.com
-#   smtp_port: 587
-#   smtp_username: someuser@gmail
+#     - someuser@gmx.com
+#   smtp_host: smtp.gmx.com
+#   smtp_port: 25
+#   smtp_username: someuser@gmx
 #   smtp_password: XXXXXXX
-#   smtp_tls: yes
 #   template: html
 tasks:
   # downloading task
