@@ -70,6 +70,16 @@ else
 	bash $INSTALLATION_FOLDER/bash/folder_structure.sh $EXTERNAL_STORAGE
 	echo "EXTERNAL_STORAGE=\"$EXTERNAL_STORAGE\"" >> $SETTINGS_FILE
 fi
+
+echo ""
+echo "In what language do you want the subtitles? "
+echo "(Two letter code: en,es,fr,de,it...) : "
+read SUBTITLES_LANGUAGE
+if [ "$SUBTITLES_LANGUAGE" == "" ] ; then
+	echo "Default to English subtitles"
+	$SUBTITLES_LANGUAGE="en"
+fi
+
 echo "--------------------------------------------------"
 # INSTALLATION BEGIN
 echo "All set. INSTALLING..."
@@ -81,8 +91,8 @@ sudo apt-get update
 chmod -R 775 /home/osmc
 
 bash $INSTALLATION_FOLDER/bash/install_transmission.sh $IP_RANGE
-bash $INSTALLATION_FOLDER/bash/install_flexget.sh "$INSTALLATION_FOLDER" "$CONFIG_RSS_FEED"
-bash $INSTALLATION_FOLDER/bash/install_crontab.sh
+bash $INSTALLATION_FOLDER/bash/install_flexget.sh "$INSTALLATION_FOLDER" "$SUBTITLES_LANGUAGE" "$CONFIG_RSS_FEED"
+bash $INSTALLATION_FOLDER/bash/install_crontab.sh $SUBTITLES_LANGUAGE
 bash $INSTALLATION_FOLDER/bash/user_profile.sh
 bash $INSTALLATION_FOLDER/bash/install_additional_packages.sh
 

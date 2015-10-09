@@ -1,5 +1,11 @@
 #!/bin/bash
-
+if [ $# != 1]
+then
+	echo "Installs the crontab"
+	echo "--USAGE: $0 2_letter_code_subtitles_language"
+	echo "e.g: $0 es (Cron will download subtitles in Spanish)"
+	exit 0
+fi
 # Install cron
 sudo apt-get install cron --yes
 
@@ -11,13 +17,14 @@ cat <<EOF > extra_lines
 # Delete images, text files and existing subtitles. Then delete any empty dir in Downloads.
 @hourly find /home/osmc/Downloads/. \( -name "*.jpg" -o -name "*.png" -o -name "*.txt" -o -name "*.nfo" -o -name "*.srt" \) -delete && find /home/osmc/Downloads/. -type d -empty -delete
 # Download all missing subtitles every morning 6:30am
-30 6 * * * /usr/local/bin/subliminal download -l es -s "/home/osmc/TV Shows/
+30 6 * * * /usr/local/bin/subliminal download -l SUBTITLES_LANGUAGE -s "/home/osmc/TV Shows/
 EOF
 
 echo "Adding lines to user crontab:"
+sed -i "s/SUBTITLES_LANGUAGE/$1/" extra_lines
 cat extra_lines
 
-# Save current crontab
+# Save current crontab content
 crontab -l > crontab_content
 # Append extra lines
 cat extra_lines >> crontab_content
