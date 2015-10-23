@@ -16,8 +16,7 @@ cat <<EOF > extra_lines
 @hourly wget --header='Content-Type: application/json' --post-data='{"method": "VideoLibrary.Scan", "id":5,"jsonrpc":"2.0"}' http://localhost/jsonrpc -O /dev/null
 # Delete images, text files and existing subtitles. Then delete any empty dir in Downloads.
 @hourly find /home/osmc/Downloads/. \( -name "*.jpg" -o -name "*.png" -o -name "*.txt" -o -name "*.nfo" -o -name "*.srt" \) -delete && find /home/osmc/Downloads/. -type d -empty -delete
-# Download all missing subtitles every morning 6:30am
-@hourly /usr/local/bin/subliminal download -l SUBTITLES_LANGUAGE -s "/home/osmc/TV Shows/
+@hourly /usr/local/bin/subliminal download -l SUBTITLES_LANGUAGE -s "/home/osmc/TV Shows/"
 EOF
 
 echo "Adding lines to user crontab:"
