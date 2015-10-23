@@ -17,7 +17,7 @@ cat <<EOF > extra_lines
 # Delete images, text files and existing subtitles. Then delete any empty dir in Downloads.
 @hourly find /home/osmc/Downloads/. \( -name "*.jpg" -o -name "*.png" -o -name "*.txt" -o -name "*.nfo" -o -name "*.srt" \) -delete && find /home/osmc/Downloads/. -type d -empty -delete
 # Download all missing subtitles every morning 6:30am
-30 6 * * * /usr/local/bin/subliminal download -l SUBTITLES_LANGUAGE -s "/home/osmc/TV Shows/
+@hourly /usr/local/bin/subliminal download -l SUBTITLES_LANGUAGE -s "/home/osmc/TV Shows/
 EOF
 
 echo "Adding lines to user crontab:"

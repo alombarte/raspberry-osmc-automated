@@ -53,7 +53,7 @@ If you don't have a RSS you can sign up in a free service like [ShowRSS](http://
 If you want to tweak on the existing installation, this might help you a little bit. To begin with, all the configuration variables you chose during installation are saved in `/home/osmc/.raspberry-osmc-automated/bash/settings.cfg`. Don't change them because it doesn't have any effect, they are used only during the installation and are there for informative purposes afterwards.
 
 The following paths assume you installed the application under `/home/osmc/.raspberry-osmc-automated`
-### Edit the automation the TV Shows
+### Changing the automation of TV Shows
 The Real magic happens by configuring this task. The default task downloads all episodes to `/home/osmc/TV Shows`, it uses a structure like `TV Shows/Show name/Season 1/Episode Name`
 
 For any changes edit the file:
