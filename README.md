@@ -71,12 +71,17 @@ Then execute flexget to see if it's working (the flexget daemon might need to be
 All jobs executed by flexget related with `TV Shows` try to download the subtitle in the language you chose during installation. There are 2 different attempts 2 download subtitles:
 
 - Just after an episode is downloaded: Flexget will use the `periscope` tool to get the associate subtitle. This operation might fail if you are downloading a just aired episode and the subtitles have not been written yet.
-- In order to complete any missing subtitles, everyday a cron job runs at `6:30 am` trying to complete them.
+- In order to complete any missing subtitles, every hour a cron job tries to download missing ones.
 
 If you ever need to change the subtitle language you need to edit 2 files:
 
 - `	/home/osmc/.raspberry-osmc-automated/flex/config.yml` and change the 2 letter code (e.g `es`) in the following line: `exec:  /usr/local/bin/periscope -l es ....`
-- In the crontab with the command `crontab -e` and look for the line executed at 6:30am
+- In the crontab with the command `crontab -e` and look for the line invoking `subliminal`
+
+##### Using your addic7ed account
+If you have an account in `addic7ed` you can pass your credentials in the aforementioned places adding the flag `--addic7ed YOURUSER YOURPASSWORD`. E.g:
+
+	/usr/local/bin/subliminal --addic7ed YOURUSER YOURPASSWORD download -l es -s "/home/osmc/TV Shows/"
 
 ### Crontab
 If you want to change the frequency of the feed checking, add, or remove jobs just execute:
