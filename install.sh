@@ -108,5 +108,6 @@ echo "Kodi Web (remote control)"
 echo "- http://$IP"
 echo ""
 echo "--------------------------------------------------"
-
-
+echo ""
+echo "You might want to set your Timezone now"
+echo "Run: sudo dpkg-reconfigure tzdata"
