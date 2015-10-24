@@ -15,13 +15,16 @@ Watch TV as soon shows are released without doing anything.
 This setup has been tested in the latest OSMC at the moment of writing: [**release 2015.08-1**](https://osmc.tv/download/images/)
 
 ## What you get...
-- A mediacenter that works with your TV remote
-- Your preferred TV Shows as soon as they are available
-- All files when downloaded in their right folder structure
-- Automatic subtitles in your language if you need them
-- All the content can be in a USB to carry it anywhere
+After the installation you get a mediacenter operated from your TV remote. All your selected TV Shows are puctually downloaded in their correct folder with its subtitles, and the filesystem is kept clean and organized, no maintenance to do. Some of the features are:
 
-Apart from the OSMC, you have the following remote services:
+- Operation from the remote, no mouse nor keyboard needed.
+- The setup of your preferred TV Shows taken from ShowRSS or any other feed of your interest.
+- All downloads automated, moved to the right folder structure when completed and using real episode names and season information (taken from TheTVDB).
+- Automatic download of subtitles and retry of failed ones every hour.
+- Downloads folder and transmission taks always clean.
+- Updated Kodi library with TV Shows covers and art cover.
+
+The following services can be used remotely:
 
 Service  | Access  | User / Password
 -------- | ---- | -----------
@@ -29,7 +32,7 @@ Transmission web client | http://$OSMC_HOST:9091 | transmission / transmission
 Kodi Web (Remote) | http://$OSMC_HOST/ | None
 Open SSH | ssh osmc@$OSMC_HOST |  osmc/osmc (`sudo` is available)
 
-**Samba** is not installed. Is not necessary at all since the machine downloads everything. Punctual transfers can be done with `scp`. Raspberry has low RAM and the less services the better (Kodi already consumes a lot of RAM)
+**Samba** is not installed, all my downloads go to an external storage (USB) that I can carry everywhere. Think that the Raspberry is not a regular PC and you can hit memory limits easily, the less services you put the better. Occasional transfers can be easily done using `scp myfile osmc@$OSMC_HOST`. 
 
 	
 # Installation
