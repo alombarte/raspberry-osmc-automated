@@ -109,7 +109,7 @@ This is a possible fix:
     sudo dpkg-reconfigure locales
     # Choose en_US.UTF-8
 
-## To-do
-- Spotify plugin
-- Youtube plugin
+## Spotify and Youtube
+The spotify plugin doesn't come preinstalled. If you have a Premium account you will be able to install it using `bash/spotify.sh`.
 
+The Youtube plugin can be installed manually from the Add-on repository browser.
