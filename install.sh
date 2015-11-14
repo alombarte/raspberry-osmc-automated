@@ -14,7 +14,7 @@ if [ "root" = $(whoami) ]; then
 	echo "Do not run this script as root. The sudo command will be used when needed."
 	exit 0
 fi
-			
+
 INSTALLATION_FOLDER=$1
 SETTINGS_FILE="$INSTALLATION_FOLDER/bash/settings.cfg"
 SAMPLE_RSS_FEED="http://showrss.info/rss.php?user_id=51436&hd=2&proper=1"
