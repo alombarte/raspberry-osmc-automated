@@ -20,6 +20,7 @@ sudo sed -i 's@/var/lib/transmission-daemon/downloads@/home/osmc/Downloads@' /et
 sudo sed -i 's@/var/lib/transmission-daemon/Downloads@/home/osmc/Downloads/Incomplete@' /etc/transmission-daemon/settings.json
 echo "Transmission access is allowed to range: $NETWORK_RANGE"
 sudo sed -i "s@\"rpc-whitelist\": \"127.0.0.1\"@\"rpc-whitelist\": \"127.0.0.1,$NETWORK_RANGE\"@" /etc/transmission-daemon/settings.json
+sudo sed -i "s@\"rpc-whitelist\": \"127.0.0.1\"@\"rpc-whitelist\": \"127.0.0.1,$NETWORK_RANGE\"@" /var/lib/transmission-daemon/info/settings.json
 sudo sed -i "s@\"rpc-whitelist\": \"127.0.0.1\"@\"rpc-whitelist\": \"127.0.0.1,$NETWORK_RANGE\"@" /home/osmc/.config/transmission-daemon/settings.json
 
 # Run transmission as "osmc" user to avoid permission problems.
