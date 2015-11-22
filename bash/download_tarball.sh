@@ -14,10 +14,10 @@ SOURCE="https://github.com/alombarte/raspberry-osmc-automated/archive/master.zip
 echo "Downloading source from $SOURCE..."
 curl -L -O $SOURCE && \
 unzip master.zip && \
-mv raspberry-osmc-automated-master $INSTALLATION_FOLDER && \
+mv raspberry-osmc-automated-master "$INSTALLATION_FOLDER" && \
 rm master.zip
 
-if [ ! -f $SETTINGS_FILE ]; then
+if [ ! -f "$SETTINGS_FILE" ]; then
 	echo "Download failed. File $SETTINGS_FILE does not exist"
 	echo "Aborting..."
 	exit 0
