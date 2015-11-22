@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ $# != 3]
+if [ $# != 3 ]
 then
 	echo "Installs and configures flexget in the system."
 	echo "--USAGE: $0 install_path subtitles_language feed"
