@@ -20,8 +20,17 @@ sudo sed -i 's@/var/lib/transmission-daemon/downloads@/home/osmc/Downloads@' /et
 sudo sed -i 's@/var/lib/transmission-daemon/Downloads@/home/osmc/Downloads/Incomplete@' /etc/transmission-daemon/settings.json
 echo "Transmission access is allowed to range: $NETWORK_RANGE"
 sudo sed -i "s@\"rpc-whitelist\": \"127.0.0.1\"@\"rpc-whitelist\": \"127.0.0.1,$NETWORK_RANGE\"@" /etc/transmission-daemon/settings.json
-sudo sed -i "s@\"rpc-whitelist\": \"127.0.0.1\"@\"rpc-whitelist\": \"127.0.0.1,$NETWORK_RANGE\"@" /var/lib/transmission-daemon/info/settings.json
 sudo sed -i "s@\"rpc-whitelist\": \"127.0.0.1\"@\"rpc-whitelist\": \"127.0.0.1,$NETWORK_RANGE\"@" /home/osmc/.config/transmission-daemon/settings.json
+
+# Previous access doesn't seem to be enough in some reported cases.
+# Enable access to the GUI from inside the network:
+cat <<EOF > start_stop_option
+
+START_STOP_OPTIONS='--allowed "127.*,10.*,192.168.*,172.16.*,172.17.*,172.18.*,172.19.*,172.20.*,172.21.*,172.22.*,172.23.*,172.24.*,172.25.*,172.26.*,172.27.*,172.28.*,172.29.*,172.30.*,172.31.*,169.254.*"'
+EOF
+sudo cat start_stop_option >> /etc/default/transmission-daemon
+rm start_stop_option
+
 
 # Run transmission as "osmc" user to avoid permission problems.
 # Add a local file in case transmission is updated the .conf is not lost.
