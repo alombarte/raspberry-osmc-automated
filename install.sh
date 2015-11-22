@@ -95,6 +95,7 @@ bash $INSTALLATION_FOLDER/bash/install_flexget.sh "$INSTALLATION_FOLDER" "$SUBTI
 bash $INSTALLATION_FOLDER/bash/install_crontab.sh $SUBTITLES_LANGUAGE
 bash $INSTALLATION_FOLDER/bash/user_profile.sh
 bash $INSTALLATION_FOLDER/bash/install_additional_packages.sh
+bash $INSTALLATION_FOLDER/bash/motd.sh
 
 echo "--------------------------------------------------"
 echo "              Installation complete!"
