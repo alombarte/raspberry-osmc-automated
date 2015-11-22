@@ -24,7 +24,7 @@ sudo sed -i "s@\"rpc-whitelist\": \"127.0.0.1\"@\"rpc-whitelist\": \"127.0.0.1,$
 
 # Previous access doesn't seem to be enough in some reported cases.
 # Enable access to the GUI from inside the network:
-cat <<EOF | sudo tee /etc/default/transmission-daemon
+cat <<EOF | sudo tee -a /etc/default/transmission-daemon
 # Enable access to the GUI from inside the network:
 START_STOP_OPTIONS='--allowed "127.*,10.*,192.168.*,172.16.*,172.17.*,172.18.*,172.19.*,172.20.*,172.21.*,172.22.*,172.23.*,172.24.*,172.25.*,172.26.*,172.27.*,172.28.*,172.29.*,172.30.*,172.31.*,169.254.*"'
 EOF
