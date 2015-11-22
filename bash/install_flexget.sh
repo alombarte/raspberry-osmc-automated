@@ -25,6 +25,8 @@ then
 fi
 ln -s $INSTALLATION_FOLDER/flexget/config.yml /home/osmc/.flexget/config.yml
 
+echo "Flexget will download content from RSS: $CONFIG_RSS_FEED"
+
 # Write user's feed in the .yml
 sed -i "s@rss: CONFIG_RSS_FEED@rss: $CONFIG_RSS_FEED@" $INSTALLATION_FOLDER/flexget/config.yml
 sed -i "s@SUBTITLES_LANGUAGE@$SUBTITLES_LANGUAGE@" $INSTALLATION_FOLDER/flexget/config.yml
