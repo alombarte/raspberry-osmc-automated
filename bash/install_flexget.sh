@@ -19,7 +19,10 @@ sudo easy_install flexget
 
 # Add FlexGet configuration:
 mkdir -p ~/.flexget
-mv /home/osmc/.flexget/config.yml /home/osmc/.flexget/config.yml.default
+if [ -f /home/osmc/.flexget/config.yml ];
+then
+    mv /home/osmc/.flexget/config.yml /home/osmc/.flexget/config.yml.default
+fi
 ln -s $INSTALLATION_FOLDER/flexget/config.yml /home/osmc/.flexget/config.yml
 
 # Write user's feed in the .yml
