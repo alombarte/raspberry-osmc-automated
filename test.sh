@@ -2,8 +2,8 @@
 set -e
 
 (
-# find all executables and run `shellcheck`
-for f in $(find . -type f -executable); do
-	shellcheck $f && echo -e "---\nSucessfully linted $f\n---"
-done
+# find all bash files and run `shellcheck`
+find . -name '*.sh' -exec sh -c '
+	shellcheck "$1" && echo "[PASS] $1\n---"
+  ' sh {} \;
 ) || true
