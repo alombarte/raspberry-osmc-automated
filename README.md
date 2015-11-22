@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/alombarte/raspberry-osmc-automated.svg?style=svg)](https://circleci.com/gh/alombarte/raspberry-osmc-automated)
+
 Setup of a **media center**  with **automated episode/film downloads** in the background.
 
 - [OSMC](https://osmc.tv/) for the mediacenter, interacting with your own TV remote.
