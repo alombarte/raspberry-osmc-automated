@@ -21,7 +21,6 @@ EOF
 
 echo "Adding lines to user crontab:"
 sed -i "s/SUBTITLES_LANGUAGE/$1/" extra_lines
-cat extra_lines
 
 # Save current crontab content
 crontab -l > crontab_content
@@ -32,4 +31,6 @@ crontab crontab_content
 # Cleaning
 rm crontab_content extra_lines
 
+echo "Your crontab is now as follows:"
+crontab -l
 
