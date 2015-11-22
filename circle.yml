@@ -1,0 +1,12 @@
+machine:
+  ghc:
+    version: 7.10.1
+
+dependencies:
+  post:
+    # install shellcheck
+    - cabal update; cabal install shellcheck
+
+test:
+  override:
+    - PATH="$HOME/.cabal/bin:$PATH" ./test.sh
