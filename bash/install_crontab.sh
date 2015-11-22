@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ $# != 1]
+if [ $# != 1 ]
 then
 	echo "Installs the crontab"
 	echo "--USAGE: $0 2_letter_code_subtitles_language"
