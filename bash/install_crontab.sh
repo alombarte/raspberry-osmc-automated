@@ -14,6 +14,7 @@ cat <<EOF > extra_lines
 @reboot /usr/local/bin/flexget daemon start -d
 @hourly /usr/local/bin/flexget --loglevel verbose --cron execute
 @hourly wget --header='Content-Type: application/json' --post-data='{"method": "VideoLibrary.Scan", "id":5,"jsonrpc":"2.0"}' http://localhost/jsonrpc -O /dev/null
+@hourly wget --header='Content-Type: application/json' --post-data='{"method": "VideoLibrary.Clean", "id":5,"jsonrpc":"2.0"}' http://localhost/jsonrpc -O /dev/null
 # Delete images, text files and existing subtitles. Then delete any empty dir in Downloads.
 @hourly find /home/osmc/Downloads/. \( -name "*.jpg" -o -name "*.png" -o -name "*.txt" -o -name "*.nfo" -o -name "*.srt" \) -delete && find /home/osmc/Downloads/. -type d -empty -delete
 @hourly /usr/local/bin/subliminal download -l SUBTITLES_LANGUAGE -s /home/osmc/TV\ Shows/* --age 1w
