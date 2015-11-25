@@ -9,7 +9,7 @@ fi
 
 INSTALLATION_FOLDER=$1
 SUBTITLES_LANGUAGE=$2
-CONFIG_RSS_FEED=$3
+CONFIG_RSS_FEED=$(echo $3 | sed -e 's/[\/&]/\\&/g')
 
 # Dependencies:
 sudo apt-get install python-pip python-setuptools --yes
