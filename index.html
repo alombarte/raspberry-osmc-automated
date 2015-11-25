@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Automated TV Shows management for a Raspberry with OSMC by alombarte</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Automated TV Shows management for a Raspberry with OSMC</h1>
+          <h2>Media center (OSMC) with automated TV Shows and subtitles download. Once configured, sit and watch TV.</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/alombarte/raspberry-osmc-automated/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/alombarte/raspberry-osmc-automated/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/alombarte/raspberry-osmc-automated" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <p><a href="https://circleci.com/gh/alombarte/raspberry-osmc-automated"><img src="https://circleci.com/gh/alombarte/raspberry-osmc-automated.svg?style=svg" alt="Circle CI"></a></p>
+
+<p>Setup of a <strong>media center</strong>  with <strong>automated episode/film downloads</strong> in the background.</p>
+
+<ul>
+<li>
+<a href="https://osmc.tv/">OSMC</a> for the mediacenter, interacting with your own TV remote.</li>
+<li>
+<a href="http://www.transmissionbt.com/">Transmission</a> to download torrents</li>
+<li>
+<a href="http://flexget.com/">Flex</a> to automate the episode search and download</li>
+</ul>
+
+<p>Watch TV as soon shows are released without doing anything.</p>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li>A running OSMC (<a href="https://osmc.tv/download/">Download and install</a> here, easy as hell to install).</li>
+<li>Hardware: A Raspberry Pi (1 or 2), Vero or Apple TV</li>
+<li>An account in <a href="https://showrss.info/">ShowRSS</a> or similar feed service that configures your own feed.</li>
+</ul>
+
+<p>This setup has been tested in the latest OSMC at the moment of writing: <a href="https://osmc.tv/download/images/"><strong>release 2015.08-1</strong></a></p>
+
+<h2>
+<a id="what-you-get" class="anchor" href="#what-you-get" aria-hidden="true"><span class="octicon octicon-link"></span></a>What you get...</h2>
+
+<p>After the installation you get a mediacenter operated from your TV remote. All your selected TV Shows are puctually downloaded in their correct folder with its subtitles, and the filesystem is kept clean and organized, no maintenance to do. Some of the features are:</p>
+
+<ul>
+<li>Operation from the remote, no mouse nor keyboard needed.</li>
+<li>The setup of your preferred TV Shows taken from ShowRSS or any other feed of your interest.</li>
+<li>All downloads automated, moved to the right folder structure when completed and using real episode names and season information (taken from TheTVDB).</li>
+<li>Automatic download of subtitles and retry of failed ones every hour.</li>
+<li>Downloads folder and transmission taks always clean.</li>
+<li>Updated Kodi library with TV Shows covers and art cover.</li>
+</ul>
+
+<p>The following services can be used remotely:</p>
+
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Access</th>
+<th>User / Password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transmission web client</td>
+<td>http://$OSMC_HOST:9091</td>
+<td>transmission / transmission</td>
+</tr>
+<tr>
+<td>Kodi Web (Remote)</td>
+<td>http://$OSMC_HOST/</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Open SSH</td>
+<td>ssh osmc@$OSMC_HOST</td>
+<td>osmc/osmc (<code>sudo</code> is available)</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Samba</strong> is not installed, all my downloads go to an external storage (USB) that I can carry everywhere. Think that the Raspberry is not a regular PC and you can hit memory limits easily, the less services you put the better. Occasional transfers can be easily done using <code>scp myfile osmc@$OSMC_HOST</code>. </p>
+
+<h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>In order to start the installation just SSH to your fresh OSMC installation in the raspeberry:</p>
+
+<pre><code>ssh osmc@YOUR_OSMC_IP
+</code></pre>
+
+<p>Then the installation starts by copy-pasting this line:</p>
+
+<pre><code>bash &lt;(curl -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -s 'https://raw.githubusercontent.com/alombarte/raspberry-osmc-automated/master/install.sh') /home/osmc/.raspberry-osmc-automated  2&gt;&amp;1 | tee installation.log
+</code></pre>
+
+<p>The installation script will download all necessary files and will configure the raspberry for you. During the installation process you will be asked for your <code>RSS feed</code> URL, your IP and the mountpoint of your external storage (if any).</p>
+
+<p><strong>Your mediacenter is ready!</strong></p>
+
+<h3>
+<a id="getting-the-rss-feed" class="anchor" href="#getting-the-rss-feed" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting the RSS feed</h3>
+
+<p>If you don't have a RSS you can sign up in a free service like <a href="http://showrss.info">ShowRSS</a>. Once you have done it add some TV Shows to your feed and then get the link by clicking <a href="https://showrss.info/?cs=feeds">"Generate" in the feeds section</a> </p>
+
+<h2>
+<a id="extending-the-configuration" class="anchor" href="#extending-the-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extending the configuration</h2>
+
+<p>If you want to tweak on the existing installation, this might help you a little bit. To begin with, all the configuration variables you chose during installation are saved in <code>/home/osmc/.raspberry-osmc-automated/bash/settings.cfg</code>. Don't change them because it doesn't have any effect, they are used only during the installation and are there for informative purposes afterwards.</p>
+
+<p>The following paths assume you installed the application under <code>/home/osmc/.raspberry-osmc-automated</code></p>
+
+<h3>
+<a id="changing-the-automation-of-tv-shows" class="anchor" href="#changing-the-automation-of-tv-shows" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changing the automation of TV Shows</h3>
+
+<p>The Real magic happens by configuring this task. The default task downloads all episodes to <code>/home/osmc/TV Shows</code>, it uses a structure like <code>TV Shows/Show name/Season 1/Episode Name</code></p>
+
+<p>For any changes edit the file:</p>
+
+<pre><code>/home/osmc/.raspberry-osmc-automated/flex/config.yml
+</code></pre>
+
+<p>Then execute flexget to see if it's working (the flexget daemon might need to be restarted):</p>
+
+<pre><code>/usr/local/bin/flexget exec
+</code></pre>
+
+<h4>
+<a id="subtitles" class="anchor" href="#subtitles" aria-hidden="true"><span class="octicon octicon-link"></span></a>Subtitles</h4>
+
+<p>All jobs executed by flexget related with <code>TV Shows</code> try to download the subtitle in the language you chose during installation. There are 2 different attempts 2 download subtitles:</p>
+
+<ul>
+<li>Just after an episode is downloaded: Flexget will use the <code>subliminal</code> tool to get the associate subtitle. This operation might fail if you are downloading a just aired episode and the subtitles have not been written yet.</li>
+<li>In order to complete any missing subtitles, every hour a cron job tries to download missing ones.</li>
+</ul>
+
+<p>If post-install you ever need to change the subtitle language you need to edit 2 files:</p>
+
+<ul>
+<li>
+<code>/home/osmc/.raspberry-osmc-automated/flex/config.yml</code> and change the 2 letter code (e.g <code>es</code>) in the following line: <code>exec:  subliminal download -l es ....</code>
+</li>
+<li>In the crontab with the command <code>crontab -e</code> and look for the line invoking <code>subliminal</code>
+</li>
+</ul>
+
+<h5>
+<a id="using-your-addic7ed-account" class="anchor" href="#using-your-addic7ed-account" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using your addic7ed account</h5>
+
+<p>If you have an account in <code>addic7ed</code> you can pass your credentials in the aforementioned places adding the flag <code>--addic7ed YOURUSER YOURPASSWORD</code>. E.g:</p>
+
+<pre><code>/usr/local/bin/subliminal --addic7ed YOURUSER YOURPASSWORD download -l es -s "/home/osmc/TV Shows/"
+</code></pre>
+
+<h3>
+<a id="crontab" class="anchor" href="#crontab" aria-hidden="true"><span class="octicon octicon-link"></span></a>Crontab</h3>
+
+<p>If you want to change the frequency of the feed checking, add, or remove jobs just execute:</p>
+
+<pre><code>crontab -e
+</code></pre>
+
+<h3>
+<a id="ssh-without-password" class="anchor" href="#ssh-without-password" aria-hidden="true"><span class="octicon octicon-link"></span></a>SSH without password:</h3>
+
+<p>If you want to stop typing the password every time you SSH to the Raspberry Pi do the following in your Mac/Linux:</p>
+
+<pre><code># Put here your raspberry IP, e.g:
+OSMC_HOST=192.168.1.10
+
+# Copy SSH key to OSMC server
+cat ~/.ssh/id_rsa.pub | ssh osmc@$OSMC_HOST 'mkdir -p ~/.ssh; umask 077; cat &gt;&gt;~/.ssh/authorized_keys'
+</code></pre>
+
+<h3>
+<a id="broken-locales" class="anchor" href="#broken-locales" aria-hidden="true"><span class="octicon octicon-link"></span></a>Broken locales?</h3>
+
+<p>If you see this message on every login:</p>
+
+<pre><code>-bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)`
+</code></pre>
+
+<p>This is a possible fix:</p>
+
+<pre><code>sudo locale-gen "en_US.UTF-8"
+sudo dpkg-reconfigure locales
+# Choose en_US.UTF-8
+</code></pre>
+
+<h2>
+<a id="spotify-and-youtube" class="anchor" href="#spotify-and-youtube" aria-hidden="true"><span class="octicon octicon-link"></span></a>Spotify and Youtube</h2>
+
+<p>The spotify plugin doesn't come preinstalled. If you have a Premium account you will be able to install it using <code>bash/spotify.sh</code>.</p>
+
+<p>The Youtube plugin can be installed manually from the Add-on repository browser.</p>
+        </section>
+
+        <footer>
+          Automated TV Shows management for a Raspberry with OSMC is maintained by <a href="https://github.com/alombarte">alombarte</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
