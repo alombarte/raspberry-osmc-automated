@@ -52,4 +52,4 @@ tasks:
       # save the file as "Series Name - SxxEyy - Episode Name.ext"
       filename: "{{ tvdb_series_name|default('Unknown Serie') }} - {{ series_id|default('XX') }} - {{ tvdb_ep_name|default('Unknown Episode Name') }}{{ location | pathext }}"
     # Download subtitles of the Series in your chosen language:
-    exec:  /usr/local/bin/periscope -l SUBTITLES_LANGUAGE "/home/osmc/TV Shows/{{ tvdb_series_name|default('Unknown') }}/Season {{ tvdb_season|default('Unknown') }}/{{ tvdb_series_name|default('Unknown Serie') }} - {{ series_id|default('XX') }} - {{ tvdb_ep_name|default('Unknown Episode Name') }}{{ location | pathext }}"
+    exec: subliminal download -l "SUBTITLES_LANGUAGE" -s "/home/osmc/TV Shows/{{ tvdb_series_name|default('Unknown') }}/Season {{ tvdb_season|default('Unknown') }}/{{ tvdb_series_name|default('Unknown Serie') }} - {{ series_id|default('XX') }} - {{ tvdb_ep_name|default('Unknown Episode Name') }}{{ location | pathext }}"

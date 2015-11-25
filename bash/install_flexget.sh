@@ -9,7 +9,7 @@ fi
 
 INSTALLATION_FOLDER=$1
 SUBTITLES_LANGUAGE=$2
-CONFIG_RSS_FEED=$(echo $3 | sed -e 's/[\/&]/\\&/g')
+CONFIG_RSS_FEED=$(echo "$3" | sed -e 's/[\/&]/\\&/g')
 
 # Dependencies:
 sudo apt-get install python-pip python-setuptools --yes
@@ -34,6 +34,5 @@ sed -i "s@SUBTITLES_LANGUAGE@$SUBTITLES_LANGUAGE@" "$INSTALLATION_FOLDER/flexget
 # Works?
 /usr/local/bin/flexget exec
 
-# Subtitles (install both systems):
-sudo easy_install periscope
+# Subtitles:
 sudo pip install subliminal
