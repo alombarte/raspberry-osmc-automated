@@ -6,7 +6,7 @@ def main():
 
 def listSeenShowsPaths():
   files = []
-  connection = httplib.HTTPConnection('192.168.1.135', 80)
+  connection = httplib.HTTPConnection('localhost', 80)
   connection.connect()
   connection.request('POST', '/jsonrpc', json.dumps({
     "jsonrpc": "2.0",
