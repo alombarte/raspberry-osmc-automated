@@ -13,10 +13,8 @@ def main():
 
   for episode in  seen_episodes:
     if args.delete and args.host == 'localhost':
-      if deleteFileAndSubtitle( episode['file'] ):
-        print "[OK] Deleted episode " + episode['title']
-      else:
-        print "[FAILED] Cannot delete " + episode['file']
+      if deleteFileAndSubtitle( episode['file'].encode('utf-8') ):
+        print "[OK] Deleted episode " + episode['title'].encode('utf-8')
     else:
       printEpisode( episode )
 
@@ -48,23 +46,25 @@ def getParsedArguments():
 
 def printEpisode(episode):
     print "--"
-    print episode['label']
-    print episode['file']
+    print episode['label'].encode('utf-8')
+    print episode['file'].encode('utf-8')
     print "Last played: " + episode['lastplayed']
     print "Play count: " + str( episode['playcount'])
 
 def deleteFileAndSubtitle(file):
   try:
+    print(file)
     isDeleted = os.remove(file)
 
     # Delete subtitle if present:
     basename = os.path.splitext(file)[0]
     subtitle = basename + ".srt"
     if os.path.isfile(subtitle):
-      os.remove(file)
+      os.remove(subtitle)
 
     return isDeleted
-  except OSError:
+  except OSError as e:
+    logging.error(e)
     return False
 
 
