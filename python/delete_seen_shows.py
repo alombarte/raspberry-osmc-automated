@@ -21,6 +21,10 @@ def main():
   show_count = len(seen_episodes)
   print "TOTAL: "  + str(show_count)
 
+  # After deleting all files the DB needs to refresh the changes.
+  if args.delete:
+    cleanLibraryDatabase(args.host)
+
 def getParsedArguments():
   """
   Returns the parsed arguments given in the command line
@@ -129,6 +133,22 @@ def getSeenEpisodesFromRPC(rpc_host='localhost'):
     logging.error('Impossible to retrieve episodes from %r' % rpc_host  )
 
   return []
+
+
+def cleanLibraryDatabase(rpc_host='localhost'):
+  connection = httplib.HTTPConnection(rpc_host, 80)
+  connection.connect()
+  connection.request('POST', '/jsonrpc', json.dumps({
+    "jsonrpc": "2.0",
+    "method": "VideoLibrary.Clean",
+    "id": "libTvShows"
+  }),{
+    "Content-Type": "application/json"
+  })
+
+  response = connection.getresponse()
+  if ( 200 != response.status ):
+    logging.error('Could not clean database on %r' % rpc_host)
 
 
 if __name__ == "__main__":
