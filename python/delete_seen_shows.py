@@ -56,16 +56,22 @@ def deleteFileAndSubtitle(file):
     print(file)
     isDeleted = os.remove(file)
 
+  except OSError as e:
+    logging.error(e)
+    isDeleted = False
+
+  try:
     # Delete subtitle if present:
     basename = os.path.splitext(file)[0]
     subtitle = basename + ".srt"
     if os.path.isfile(subtitle):
       os.remove(subtitle)
 
-    return isDeleted
   except OSError as e:
     logging.error(e)
-    return False
+
+  return isDeleted
+
 
 
 def getSeenEpisodesFromRPC(rpc_host='localhost'):
