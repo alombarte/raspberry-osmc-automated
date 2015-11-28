@@ -37,7 +37,8 @@ tasks:
       regexp: '.*\.(avi|mkv|mp4)$'
       recursive: yes
     accept_all: yes
-    seen: local
+    disable:
+      - seen
     # this is needed for the episode names
     thetvdb_lookup: yes
     all_series:
