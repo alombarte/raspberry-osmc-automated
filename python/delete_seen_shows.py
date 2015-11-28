@@ -1,12 +1,44 @@
-import json,httplib
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import json,httplib,os,sys,argparse
 
 def main():
-  for path in listSeenShowsPaths():
+  args = getArguments()
+  print 'List of episodes marked as seen:'
+  for path in listSeenShowsPaths(args.host):
+    if args.delete:
+      print "Deleting " + path
+      # delete(path)
     print path
+  
+def getArguments():
+  """
+  Returns the list of arguments passed
+  """
+  
+  parser = argparse.ArgumentParser(
+    description='Lists all files associated to TV Shows marked as seen not played in the last month')
+  
+  # Optional arguments
+  parser.add_argument('-d', '--delete',
+                      action='store_true', # Allows this argument to behave like a flag
+                      help='Delete all matching files'
+                      )
+  parser.add_argument('-H', '--host',
+                      help='hostname or IP of the machine running the RPC service',
+                      default="localhost"
+                      )  
+  args = parser.parse_args()
+  return args
 
-def listSeenShowsPaths():
+
+def delete(file):
+  return os.remove(path)
+
+def listSeenShowsPaths(Kodi_host='localhost'):
   files = []
-  connection = httplib.HTTPConnection('localhost', 80)
+  connection = httplib.HTTPConnection(Kodi_host, 80)
   connection.connect()
   connection.request('POST', '/jsonrpc', json.dumps({
     "jsonrpc": "2.0",
@@ -25,10 +57,6 @@ def listSeenShowsPaths():
             "value": "0"
           }
         ]
-      },
-      "limits": {
-        "start": 0,
-        "end": 50
       },
       "properties": [
         "playcount",
@@ -49,6 +77,8 @@ def listSeenShowsPaths():
     responseObject = json.loads(response.read())
     for item in responseObject['result']['episodes']:
       files.append( item['file'] )
+  else:
+    print 'Impossible to retrieve episodes from %r' % Kodi_host
       
 
   return files
