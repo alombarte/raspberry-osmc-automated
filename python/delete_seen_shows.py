@@ -1,44 +1,81 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import json,httplib,os,sys,argparse
+import json
+import httplib
+import os
+import argparse
+import logging
 
 def main():
-  args = getArguments()
-  print 'List of episodes marked as seen:'
-  for path in listSeenShowsPaths(args.host):
-    if args.delete:
-      print "Deleting " + path
-      # delete(path)
-    print path
-  
-def getArguments():
+  args = getParsedArguments()
+  seen_episodes = getSeenEpisodesFromRPC(args.host)
+
+  for episode in  seen_episodes:
+    if args.delete and args.host == 'localhost':
+      if deleteFileAndSubtitle( episode['file'] ):
+        print "[OK] Deleted episode " + episode['title']
+      else:
+        print "[FAILED] Cannot delete " + episode['file']
+    else:
+      printEpisode( episode )
+
+  show_count = len(seen_episodes)
+  print "TOTAL: "  + str(show_count)
+
+def getParsedArguments():
   """
-  Returns the list of arguments passed
+  Returns the parsed arguments given in the command line
   """
-  
+
   parser = argparse.ArgumentParser(
-    description='Lists all files associated to TV Shows marked as seen not played in the last month')
-  
+    description='Lists all TV Shows marked as seen and allows to delete them')
+
   # Optional arguments
   parser.add_argument('-d', '--delete',
                       action='store_true', # Allows this argument to behave like a flag
-                      help='Delete all matching files'
+                      help='Delete files and subtitles of seen TV shows. Ignored when using the flag --host'
                       )
   parser.add_argument('-H', '--host',
-                      help='hostname or IP of the machine running the RPC service',
+                      help="""Hostname or IP of a remote machine running the Kodi JSON-RPC service.
+                      Remote deletion of files through the RPC service is not suported. Ignores
+                      flag --delete if present.""",
                       default="localhost"
-                      )  
+                      )
   args = parser.parse_args()
   return args
 
 
-def delete(file):
-  return os.remove(path)
+def printEpisode(episode):
+    print "--"
+    print episode['label']
+    print episode['file']
+    print "Last played: " + episode['lastplayed']
+    print "Play count: " + str( episode['playcount'])
 
-def listSeenShowsPaths(Kodi_host='localhost'):
-  files = []
-  connection = httplib.HTTPConnection(Kodi_host, 80)
+def deleteFileAndSubtitle(file):
+  try:
+    isDeleted = os.remove(file)
+
+    # Delete subtitle if present:
+    basename = os.path.splitext(file)[0]
+    subtitle = basename + ".srt"
+    if os.path.isfile(subtitle):
+      os.remove(file)
+
+    return isDeleted
+  except OSError:
+    return False
+
+
+def getSeenEpisodesFromRPC(rpc_host='localhost'):
+  """
+  Retrieves from Kodi JSON-RPC service the list of episodes
+  marked as seen and not played in the last month (avoids
+  immediate deletion)
+  """
+
+  connection = httplib.HTTPConnection(rpc_host, 80)
   connection.connect()
   connection.request('POST', '/jsonrpc', json.dumps({
     "jsonrpc": "2.0",
@@ -49,7 +86,7 @@ def listSeenShowsPaths(Kodi_host='localhost'):
           {
             "field": "lastplayed",
             "operator": "notinthelast",
-            "value": "month"
+            "value": "15 days"
           },
           {
             "field": "playcount",
@@ -59,6 +96,7 @@ def listSeenShowsPaths(Kodi_host='localhost'):
         ]
       },
       "properties": [
+        "title",
         "playcount",
         "lastplayed",
         "file"
@@ -72,16 +110,19 @@ def listSeenShowsPaths(Kodi_host='localhost'):
   }),{
     "Content-Type": "application/json"
   })
+
   response = connection.getresponse()
   if ( 200 == response.status ):
     responseObject = json.loads(response.read())
-    for item in responseObject['result']['episodes']:
-      files.append( item['file'] )
-  else:
-    print 'Impossible to retrieve episodes from %r' % Kodi_host
-      
 
-  return files
+    if ('episodes' in responseObject['result'] ):
+      return responseObject['result']['episodes']
+    else:
+      logging.error('No shows match the minum criteria')
+  else:
+    logging.error('Impossible to retrieve episodes from %r' % rpc_host  )
+
+  return []
 
 
 if __name__ == "__main__":
