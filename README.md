@@ -1,10 +1,14 @@
 [![Circle CI](https://circleci.com/gh/alombarte/raspberry-osmc-automated.svg?style=svg)](https://circleci.com/gh/alombarte/raspberry-osmc-automated)
 
-Setup of a **media center**  with **automated episode/film downloads** in the background.
+Setup of a **media center**  with **automated episode downloads** in the background.
 
-- [OSMC](https://osmc.tv/) for the mediacenter, interacting with your own TV remote.
+These are the applications this setup configures and automates for you:
+
+- [OSMC](https://osmc.tv/) the operating system for the mediacenter, interacting with your own TV remote.
 - [Transmission](http://www.transmissionbt.com/) to download torrents
-- [Flex](http://flexget.com/) to automate the episode search and download
+- [Flex](http://flexget.com/) to automate jobs and such as the episode search, download, add subtitles or keep the house clean
+- [Subliminal](https://github.com/Diaoul/subliminal) to integrate subtitles in your language 
+- Cronjobs, several of them to keep everything working in background
 
 Watch TV as soon shows are released without doing anything.
 
@@ -14,17 +18,18 @@ Watch TV as soon shows are released without doing anything.
 - Hardware: A Raspberry Pi (1 or 2), Vero or Apple TV
 - An account in [ShowRSS](https://showrss.info/) or similar feed service that configures your own feed.
  
-This setup has been tested in the latest OSMC at the moment of writing: [**release 2015.08-1**](https://osmc.tv/download/images/)
+This setup has been tested in the latest OSMC at the moment of writing: [**release 2015.08-1**](https://osmc.tv/download/images/) (there is a new version now, should work)
 
-## What you get...
+## Features
 After the installation you get a mediacenter operated from your TV remote. All your selected TV Shows are puctually downloaded in their correct folder with its subtitles, and the filesystem is kept clean and organized, no maintenance to do. Some of the features are:
 
 - Operation from the remote, no mouse nor keyboard needed.
 - The setup of your preferred TV Shows taken from ShowRSS or any other feed of your interest.
 - All downloads automated, moved to the right folder structure when completed and using real episode names and season information (taken from TheTVDB).
 - Automatic download of subtitles and retry of failed ones every hour.
-- Downloads folder and transmission taks always clean.
+- Downloads folder and transmission tasks always clean.
 - Updated Kodi library with TV Shows covers and art cover.
+- [optional] Delete shows that have been already seen to save storage
 
 The following services can be used remotely:
 
@@ -89,6 +94,9 @@ If you have an account in `addic7ed` you can pass your credentials in the aforem
 If you want to change the frequency of the feed checking, add, or remove jobs just execute:
 
 	crontab -e
+	
+#### Deleting seen shows
+In the crontab there is a commented job that deletes TV shows that are marked as seen by Kodi after 1 month. If you want to enable this feature just uncomment the line in the crontab and save.
 
 ### SSH without password:
 If you want to stop typing the password every time you SSH to the Raspberry Pi do the following in your Mac/Linux:
