@@ -23,6 +23,14 @@ EOF
 echo "Adding lines to user crontab:"
 sed -i "s/SUBTITLES_LANGUAGE/$1/" extra_lines
 
+echo "Forcing UTF-8 in crontab"
+cat <<'EOF' | tee ~/.bashrc
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
+export LANGUAGE="en_US.UTF-8"
+EOF
+sudo service cron restart
+
 # Save current crontab content
 crontab -l > crontab_content
 # Append extra lines
