@@ -39,6 +39,7 @@ tasks:
     accept_all: yes
     disable:
       - seen
+      - retry_failed
     # this is needed for the episode names
     thetvdb_lookup: yes
     all_series:
