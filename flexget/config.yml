@@ -49,9 +49,9 @@ tasks:
     series:
       - Adventure Time
     move:
-      # this is where the series will be put
-        to: /home/osmc/TV Shows/{{ tvdb_series_name }}/Season {{ tvdb_season }}
-        # save the file as "Series Name - S01E02 - Episode Name.ext"
-        filename: "{{ tvdb_series_name }} - {{ series_id|default('XX') }} - {{ tvdb_ep_name|default('Unknown Episode Name') }}{{ location | pathext }}"
+        # this is where the series will be put.
+        to: /home/osmc/TV Shows/{{ tvdb_series_name }}/Season {{ '%02d'|format(tvdb_season) }}
+        # Prepend to the file Series Name and episode number, leave the rest of the name as the original. E.g: "Series Name - S01E02 - original.file.mkv"
+        filename: "{{ tvdb_series_name }} - {{ series_id|default('XX') }} - {{ location }}"
       # Download subtitles of the Series in your chosen language:
-      exec: subliminal download -l "SUBTITLES_LANGUAGE" -s "/home/osmc/TV Shows/{{ tvdb_series_name }}/Season {{ tvdb_season }}/{{ tvdb_series_name }} - {{ series_id|default('XX') }} - {{ tvdb_ep_name|default('Unknown Episode Name') }}{{ location | pathext }}"
+      exec: /usr/local/bin/subliminal download -l "SUBTITLES_LANGUAGE" -s "/home/osmc/TV Shows/{{ tvdb_series_name }}/Season {{ '%02d'|format(tvdb_season) }}/{{ tvdb_series_name }} - {{ series_id|default('XX') }} - {{ location }}"
