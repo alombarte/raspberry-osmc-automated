@@ -54,4 +54,4 @@ tasks:
       # Set the filename E.g: "Series Name - S01E02 - Episode Name.mkv"
       filename: "{{ tvdb_series_name }} - {{ series_id|default('XX') }} {% if tvdb_ep_name|default(False) %} - {{ tvdb_ep_name }}{% endif %}{{ location|pathext }}"
     # Download subtitles of the Series in your chosen language:
-    exec: /usr/local/bin/subliminal download -l "SUBTITLES_LANGUAGE" -s "/home/osmc/TV Shows/{{ tvdb_series_name }} - {{ series_id|default('XX') }} {% if tvdb_ep_name|default(False) %} - {{ tvdb_ep_name }}{% endif %}{{ location|pathext }}
+    exec: /usr/local/bin/subliminal download -l "SUBTITLES_LANGUAGE" -s "/home/osmc/TV Shows/{{ tvdb_series_name }} - {{ series_id|default('XX') }} {% if tvdb_ep_name|default(False) %} - {{ tvdb_ep_name }}{% endif %}{{ location|pathext }}"
