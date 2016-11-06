@@ -65,7 +65,9 @@ echo "Are you storing content on a external storage? If so, what is the mountpoi
 echo "Press ENTER to skip, or write the path now:"
 read -r EXTERNAL_STORAGE
 if [ "$EXTERNAL_STORAGE" == "" ] || [ ! -d "$EXTERNAL_STORAGE" ] ; then
-	echo "No valid storage given, omitting..."
+	echo "Omitting external storage. Preparing folder structure..."
+	mkdir -p "$EXTERNAL_STORAGE"/{Downloads/Incomplete,Movies,Music,Pictures,"TV Shows"}
+	
 else
 	bash "$INSTALLATION_FOLDER/bash/folder_structure.sh" "$EXTERNAL_STORAGE"
 	echo "EXTERNAL_STORAGE=\"$EXTERNAL_STORAGE\"" >> "$SETTINGS_FILE"
