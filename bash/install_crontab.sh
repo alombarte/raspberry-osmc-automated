@@ -18,6 +18,8 @@ cat <<EOF > extra_lines
 # Delete images, text files and existing subtitles. Then delete any empty dir in Downloads.
 @hourly find /home/osmc/Downloads/. \( -name "*.jpg" -o -name "*.png" -o -name "*.txt" -o -name "*.url" -o -name "*.nfo" -o -name "*.srt" \) -delete && find /home/osmc/Downloads/. -mindepth 1 -type d -empty -delete
 @hourly /usr/local/bin/subliminal download -l SUBTITLES_LANGUAGE -s /home/osmc/TV\ Shows/* --age 1w  > /dev/null
+# Uncomment to delete shows already seen
+# @weekly python /home/osmc/.raspberry-osmc-automated/python/delete_seen_shows.py --delete  > /dev/null
 EOF
 
 echo "Adding lines to user crontab:"
