@@ -11,8 +11,8 @@ sudo apt-get install cron --yes
 
 # Crontab content
 cat <<EOF > extra_lines
-@reboot /usr/local/bin/flexget --loglevel critical daemon start -d
-@hourly /usr/local/bin/flexget --loglevel critical --cron execute
+@reboot /usr/local/bin/flexget daemon start -d > /dev/null
+@hourly /usr/local/bin/flexget --cron execute > /dev/null
 @hourly wget --quiet --header='Content-Type: application/json' --post-data='{"method": "VideoLibrary.Scan", "id":5,"jsonrpc":"2.0"}' http://localhost/jsonrpc -O /dev/null
 @daily wget --quiet --header='Content-Type: application/json' --post-data='{"method": "VideoLibrary.Clean", "id":5,"jsonrpc":"2.0"}' http://localhost/jsonrpc -O /dev/null
 # Delete images, text files and existing subtitles. Then delete any empty dir in Downloads.
