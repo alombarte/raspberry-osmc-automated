@@ -11,7 +11,7 @@ fi
 for magnet in $(wget -q -O- "$1" | grep -oPm1 "(?<=<link>)[^<]+" | grep magnet | sort | uniq)
 do
     echo "Adding magnet $magnet"	
-    transmission-remote -a "$magnet"
+    transmission-daemon -a "$magnet"
 done
 
 
