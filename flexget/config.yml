@@ -7,6 +7,19 @@
 #   smtp_username: someuser@gmx
 #   smtp_password: XXXXXXX
 #   template: html
+
+templates:
+  # This template is used to sort the problematic series
+  # http://flexget.com/Cookbook/Series/Sort
+  # You must use series groups, so that we can turn off filtering with the parse_only option in our sort feed.
+  tv-series:
+    series:
+      myseriesgroup:
+        - Grey's Anatomy:
+            set:
+              tvdb_id: 73762
+        - Designated Survivor
+
 tasks:
   # downloading task
   download-rss:
@@ -42,12 +55,22 @@ tasks:
       - retry_failed
     # this is needed for the episode names
     thetvdb_lookup: yes
+    template: tv-series
     all_series:
       # for some reason all_series rejects all episodes here, even with seen: local, so parse_only must be added
       parse_only: yes
-    # TVDB doesn't recognise "Adventure Time with Finn and Jake" so you must add such exceptions here manually
+    # NOTE: You must set the parse_only option for all of the series groups you have configured in your template.
+    # This option prevents the series plugin from accepting or rejecting anything in this feed.
     series:
-      - Adventure Time
+      settings:
+        myseriesgroup:
+          parse_only: yes
+    # Ignore samples
+    regexp:
+      reject:
+        - sample
+    # With the require_field and accept_all plugins, we accept anything that the series plugin has successfully parsed.
+    require_field: series_name
     move:
       # this is where the series will be put.
       to: /home/osmc/TV Shows/{{ tvdb_series_name }}
