@@ -25,7 +25,7 @@ After the installation you get a mediacenter operated from your TV remote. All y
 
 - Operation from the remote, no mouse nor keyboard needed.
 - The setup of your preferred TV Shows taken from ShowRSS or any other feed of your interest.
-- All downloads automated, moved to the right folder structure when completed and using real episode names and season information (taken from TheTVDB).
+- All downloads automated, moved to the right folder structure when completed.  Using real episode names and season information (taken from TheTVDB) is optional by uncommenting lines in the config.
 - Automatic download of subtitles and retry of failed ones every hour.
 - Downloads folder and transmission tasks always clean.
 - Updated Kodi library with TV Shows covers and art cover.

@@ -74,7 +74,11 @@ tasks:
     move:
       # this is where the series will be put.
       to: /home/osmc/TV Shows/{{ tvdb_series_name }}
-      # Set the filename E.g: "Series Name - S01E02 - Episode Name.mkv"
-      filename: "{{ tvdb_series_name }} - {{ series_id|default('XX') }} {% if tvdb_ep_name|default(False) %} - {{ tvdb_ep_name }}{% endif %}{{ location|pathext }}"
-    # Download subtitles of the Series in your chosen language:
-    exec: /usr/local/bin/subliminal download -l "SUBTITLES_LANGUAGE" -s "/home/osmc/TV Shows/{{ tvdb_series_name }}/{{ tvdb_series_name }} - {{ series_id|default('XX') }} {% if tvdb_ep_name|default(False) %} - {{ tvdb_ep_name }}{% endif %}{{ location|pathext }}"
+      # If you want to rename the filename to something like "Series Name - S01E02 - Episode Name.mkv" uncomment the line below and
+      # swap the "exec" below as well. It is commented by default as the service providing the metadata cannot always match.
+      #filename: "{{ tvdb_series_name }} - {{ series_id|default('XX') }} {% if tvdb_ep_name|default(False) %} - {{ tvdb_ep_name }}{% endif %}{{ location|pathext }}"
+    # Download all missing subtitles for this TV Show in your chosen language (subliminal will ignore series with subtitles already):
+    exec: /usr/local/bin/subliminal download -l "SUBTITLES_LANGUAGE" -s "/home/osmc/TV Shows/{{ tvdb_series_name }}/"
+    # Use this line instead if you choose to rename files:
+    #exec: /usr/local/bin/subliminal download -l "SUBTITLES_LANGUAGE" -s "/home/osmc/TV Shows/{{ tvdb_series_name }}/{{ tvdb_series_name }} - {{ series_id|default('XX') }} {% if tvdb_ep_name|default(False) %} - {{ tvdb_ep_name }}{% endif %}{{ location|pathext }}"
+
