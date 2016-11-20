@@ -10,7 +10,7 @@ fi
 
 NETWORK_RANGE=$1
 
-sudo apt-get install transmission-daemon python-transmissionrpc --yes
+sudo apt-get install transmission-daemon python-transmissionrpc transmission-cli --yes
 
 # Stop daemon to edit settings, otherwise they are rewritten:
 sudo /etc/init.d/transmission-daemon stop
