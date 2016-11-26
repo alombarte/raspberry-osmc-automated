@@ -18,7 +18,7 @@ def main():
 
     for episode in seen_episodes:
         if args.delete and args.host == 'localhost':
-            if delete_file_and_subtitle(episode['file'].encode('utf-8'), args.dryrun):
+            if delete_file_and_subtitle(episode['file'].encode('utf-8')):
                 logging.info("Deleted episode " +
                              episode['title'].encode('utf-8'))
         else:
@@ -28,7 +28,7 @@ def main():
     logging.info("TOTAL: " + str(show_count))
 
     # After deleting all files the DB needs to refresh the changes.
-    if args.delete and not args.dryrun:
+    if args.delete:
         clean_library_database(args.host)
 
 
@@ -51,11 +51,6 @@ def get_parsed_arguments():
                       flag --delete if present.""",
                         default="localhost"
                         )
-    parser.add_argument('-r', '--dryrun',
-                        action='store_true',  # Allows this argument to behave like a flag
-                        help='Do not delete anything, just print what would be deleted.',
-                        default=False
-                        )
     args = parser.parse_args()
     return args
 
@@ -68,14 +63,11 @@ def print_episode(episode):
     logging.info("Play count: " + str(episode['playcount']))
 
 
-def delete_file_and_subtitle(file_to_delete, dryrun=False):
+def delete_file_and_subtitle(file_to_delete):
     try:
         logging.info(file_to_delete)
-        if not dryrun:
-            os.remove(file_to_delete)
-            is_deleted = True
-        else:
-            is_deleted = True
+        os.remove(file_to_delete)
+        is_deleted = True
 
     except OSError as e:
         logging.error(e)
@@ -85,7 +77,7 @@ def delete_file_and_subtitle(file_to_delete, dryrun=False):
         # Delete subtitle if present:
         basename = os.path.splitext(file_to_delete)[0]
         subtitle = basename + ".srt"
-        if os.path.isfile(subtitle) and not dryrun:
+        if os.path.isfile(subtitle):
             os.remove(subtitle)
 
     except OSError as e:
