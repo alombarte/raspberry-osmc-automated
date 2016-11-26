@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-https://gist.github.com/bernardomaciel/380af5e1cc235eb0103634f7e018a035"""delete_seen_shows.py: Delete shows marked as seen at least 15 days ago in Kodi."""
+"""delete_seen_shows.py: Delete shows marked as seen at least 15 days ago in Kodi."""
 
 import json
 import httplib
@@ -13,26 +13,26 @@ import logging
 def main():
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                         filename='/home/osmc/.raspberry-osmc-automated/logs/delete_seen_shows.log', level=logging.INFO)
-    args = getParsedArguments()
-    seen_episodes = getSeenEpisodesFromRPC(args.host)
+    args = get_parsed_arguments()
+    seen_episodes = get_seen_episodes_from_rpc(args.host)
 
     for episode in seen_episodes:
         if args.delete and args.host == 'localhost':
-            if deleteFileAndSubtitle(episode['file'].encode('utf-8'), args.dryrun):
+            if delete_file_and_subtitle(episode['file'].encode('utf-8'), args.dryrun):
                 logging.info("Deleted episode " +
                              episode['title'].encode('utf-8'))
         else:
-            printEpisode(episode)
+            print_episode(episode)
 
     show_count = len(seen_episodes)
     logging.info("TOTAL: " + str(show_count))
 
     # After deleting all files the DB needs to refresh the changes.
     if args.delete and not args.dryrun:
-        cleanLibraryDatabase(args.host)
+        clean_library_database(args.host)
 
 
-def getParsedArguments():
+def get_parsed_arguments():
     """
     Returns the parsed arguments given in the command line
     """
@@ -60,7 +60,7 @@ def getParsedArguments():
     return args
 
 
-def printEpisode(episode):
+def print_episode(episode):
     logging.info("--")
     logging.info(episode['label'].encode('utf-8'))
     logging.info(episode['file'].encode('utf-8'))
@@ -68,22 +68,22 @@ def printEpisode(episode):
     logging.info("Play count: " + str(episode['playcount']))
 
 
-def deleteFileAndSubtitle(file, dryrun=False):
+def delete_file_and_subtitle(file_to_delete, dryrun=False):
     try:
-        logging.info(file)
+        logging.info(file_to_delete)
         if not dryrun:
-            os.remove(file)
-            isDeleted = True
+            os.remove(file_to_delete)
+            is_deleted = True
         else:
-            isDeleted = True
+            is_deleted = True
 
     except OSError as e:
         logging.error(e)
-        isDeleted = False
+        is_deleted = False
 
     try:
         # Delete subtitle if present:
-        basename = os.path.splitext(file)[0]
+        basename = os.path.splitext(file_to_delete)[0]
         subtitle = basename + ".srt"
         if os.path.isfile(subtitle) and not dryrun:
             os.remove(subtitle)
@@ -91,10 +91,10 @@ def deleteFileAndSubtitle(file, dryrun=False):
     except OSError as e:
         logging.error(e)
 
-    return isDeleted
+    return is_deleted
 
 
-def getSeenEpisodesFromRPC(rpc_host='localhost'):
+def get_seen_episodes_from_rpc(rpc_host='localhost'):
     """
     Retrieves from Kodi JSON-RPC service the list of episodes
     marked as seen and not played in the last month (avoids
@@ -139,10 +139,10 @@ def getSeenEpisodesFromRPC(rpc_host='localhost'):
 
     response = connection.getresponse()
     if 200 == response.status:
-        responseObject = json.loads(response.read())
+        response_object = json.loads(response.read())
 
-        if 'episodes' in responseObject['result']:
-            return responseObject['result']['episodes']
+        if 'episodes' in response_object['result']:
+            return response_object['result']['episodes']
         else:
             logging.error('No shows match the minimum criteria')
     else:
@@ -151,7 +151,7 @@ def getSeenEpisodesFromRPC(rpc_host='localhost'):
     return []
 
 
-def cleanLibraryDatabase(rpc_host='localhost'):
+def clean_library_database(rpc_host='localhost'):
     connection = httplib.HTTPConnection(rpc_host, 80)
     connection.connect()
     connection.request('POST', '/jsonrpc', json.dumps({
