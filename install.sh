@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # You can execute this script with:
 # bash <(curl -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -s 'https://raw.githubusercontent.com/alombarte/raspberry-osmc-automated/master/install.sh') /home/osmc/.raspberry-osmc-automated
