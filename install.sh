@@ -49,7 +49,7 @@ fi
 echo "CONFIG_RSS_FEED=\"$CONFIG_RSS_FEED\"" >> "$SETTINGS_FILE"
 
 # Confirm IP
-IP_GUESS=$(ifconfig | awk '/inet addr/{print substr($2,6)}' | grep -v 127.0.0.1)
+IP_GUESS=$(ifconfig | awk '/inet /{print $2}' | grep -v 127.0.0.1)
 echo ""
 echo "This box IP seems to be: $IP_GUESS"
 echo "Press ENTER to validate or type the correct one"
