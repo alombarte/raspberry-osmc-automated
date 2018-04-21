@@ -1,4 +1,4 @@
-[![Circle CI](https://circleci.com/gh/alombarte/raspberry-osmc-automated.svg?style=svg)](https://circleci.com/gh/alombarte/raspberry-osmc-automated)
+Build status: [![Circle CI](https://circleci.com/gh/alombarte/raspberry-osmc-automated.svg?style=svg)](https://circleci.com/gh/alombarte/raspberry-osmc-automated)
 
 Setup of a **media center**  with **automated episode downloads** in the background.
 
@@ -15,10 +15,10 @@ Watch TV as soon shows are released without doing anything.
 
 ## Requirements
 - A running OSMC ([Download and install](https://osmc.tv/download/) here, easy as hell to install).
-- Hardware: A Raspberry Pi (1 or 2), Vero or Apple TV
+- Hardware: A Raspberry Pi (1 or 2 or 3), Vero or Apple TV
 - An account in [ShowRSS](https://showrss.info/) or similar feed service that configures your own feed.
 
-This setup has been tested in the latest OSMC at the moment of writing: [**release 2015.08-1**](https://osmc.tv/download/images/) (there is a new version now, should work)
+This setup has been running since 2015 and now in 2018 has been updated to support raspberry 3 using OSMC release [**2018.03-2**](https://osmc.tv/download/images/) (if there is a newer version now, should work)
 
 ## Features
 After the installation you get a mediacenter operated from your TV remote. All your selected TV Shows are puctually downloaded in their correct folder with its subtitles, and the filesystem is kept clean and organized, no maintenance to do. Some of the features are:
@@ -51,7 +51,7 @@ Then the installation starts by copy-pasting this line:
 
 	bash <(curl -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -s 'https://raw.githubusercontent.com/alombarte/raspberry-osmc-automated/master/install.sh') /home/osmc/.raspberry-osmc-automated  2>&1 | tee /home/osmc/.raspberry-osmc-automated/logs/installation.log
 
-The installation script will download all necessary files and will configure the raspberry for you. During the installation process you will be asked for your `RSS feed` URL, your IP and the mountpoint of your external storage (if any).
+The installation script will download all necessary files and will configure the raspberry for you. At the beginning of the installation process you will be asked for your `RSS feed` URL, your IP and the mountpoint of your external storage (if any). Once you have answered the questions, leave the computer and do something else. The process is long, and if there is anything broken you will be able to see it in the `installation.log`.
 
 **Your mediacenter is ready!**
 
@@ -63,6 +63,7 @@ If you don't have a RSS you can sign up in a free service like [ShowRSS](http://
 If you want to tweak on the existing installation, this might help you a little bit. To begin with, all the configuration variables you chose during installation are saved in `/home/osmc/.raspberry-osmc-automated/bash/settings.cfg`. Don't change them because it doesn't have any effect, they are used only during the installation and are there for informative purposes afterwards.
 
 The following paths assume you installed the application under `/home/osmc/.raspberry-osmc-automated`
+
 ### Changing the automation of TV Shows
 The Real magic happens by configuring this task. The default task downloads all episodes to `/home/osmc/TV Shows`, it uses a structure like `TV Shows/Show name/Season 1/Episode Name`
 

@@ -12,10 +12,13 @@ NETWORK_RANGE=$1
 
 sudo apt-get install transmission-daemon python-transmissionrpc transmission-cli --yes
 
+# Start the daemon (let config files be created)
+sudo /etc/init.d/transmission-daemon start
+
 # Stop daemon to edit settings, otherwise they are rewritten:
 sudo /etc/init.d/transmission-daemon stop
 
-# Change downloading dirs from/var/lib/transmission-daemon/ to folders with space:
+# Change downloading dirs from/var/lib/transmission-daemon/ to home folder:
 sudo sed -i 's@/var/lib/transmission-daemon/downloads@/home/osmc/Downloads@' /etc/transmission-daemon/settings.json
 sudo sed -i 's@/var/lib/transmission-daemon/Downloads@/home/osmc/Downloads/Incomplete@' /etc/transmission-daemon/settings.json
 echo "Transmission access is allowed to range: $NETWORK_RANGE"

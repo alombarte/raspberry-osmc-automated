@@ -49,10 +49,9 @@ fi
 echo "CONFIG_RSS_FEED=\"$CONFIG_RSS_FEED\"" >> "$SETTINGS_FILE"
 
 # Confirm IP
-IP_GUESS=$(ifconfig | awk '/inet /{print $2}' | grep -v 127.0.0.1)
+IP_GUESS=$(ifconfig | awk '/inet /{print $2}' | grep -v 127.0.0.1 | tail -n 1)
 echo ""
-echo "This box IP seems to be: $IP_GUESS"
-echo "Press ENTER to validate or type the correct one"
+echo "IP address (or ENTER to accept) [$IP_GUESS]: "
 read -r IP
 if [ "$IP" == "" ] ; then
 	IP=$IP_GUESS
@@ -68,7 +67,7 @@ read -r EXTERNAL_STORAGE
 if [ "$EXTERNAL_STORAGE" == "" ] || [ ! -d "$EXTERNAL_STORAGE" ] ; then
 	echo "Omitting external storage. Preparing folder structure..."
 	mkdir -p "$EXTERNAL_STORAGE"/{Downloads/Incomplete,Movies,Music,Pictures,"TV Shows"}
-	
+
 else
 	bash "$INSTALLATION_FOLDER/bash/folder_structure.sh" "$EXTERNAL_STORAGE"
 	echo "EXTERNAL_STORAGE=\"$EXTERNAL_STORAGE\"" >> "$SETTINGS_FILE"
