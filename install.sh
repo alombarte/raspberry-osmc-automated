@@ -19,6 +19,7 @@ fi
 INSTALLATION_FOLDER=$1
 SETTINGS_FILE="$INSTALLATION_FOLDER/bash/settings.cfg"
 SAMPLE_RSS_FEED="http://showrss.info/rss.php?user_id=51436&hd=2&proper=1"
+HOME_FOLDER="/home/osmc"
 
 
 echo "Starting installation in path $INSTALLATION_FOLDER"
@@ -66,6 +67,7 @@ echo "Press ENTER to skip, or write the path now:"
 read -r EXTERNAL_STORAGE
 if [ "$EXTERNAL_STORAGE" == "" ] || [ ! -d "$EXTERNAL_STORAGE" ] ; then
 	echo "Omitting external storage. Preparing folder structure..."
+	EXTERNAL_STORAGE=$HOME_FOLDER
 	mkdir -p "$EXTERNAL_STORAGE"/{Downloads/Incomplete,Movies,Music,Pictures,"TV Shows"}
 
 else
@@ -90,7 +92,7 @@ echo "Updating APT repositories"
 sudo apt-get update
 
 # Add write permission to osmc group. We will add other users in this group
-chmod -R 775 /home/osmc
+chmod -R 775 $HOME_FOLDER
 
 bash "$INSTALLATION_FOLDER/bash/install_transmission.sh" "$IP_RANGE"
 bash "$INSTALLATION_FOLDER/bash/install_flexget.sh" "$INSTALLATION_FOLDER" "$SUBTITLES_LANGUAGE" "$CONFIG_RSS_FEED"
