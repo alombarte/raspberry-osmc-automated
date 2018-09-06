@@ -1,4 +1,4 @@
-Build status: [![Circle CI](https://circleci.com/gh/alombarte/raspberry-osmc-automated.svg?style=svg)](https://circleci.com/gh/alombarte/raspberry-osmc-automated)
+Build status: [![Build Status](https://travis-ci.org/alombarte/raspberry-osmc-automated.svg?branch=master)](https://travis-ci.org/alombarte/raspberry-osmc-automated)
 
 Setup of a **media center**  with **automated episode downloads** in the background.
 
