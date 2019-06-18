@@ -47,9 +47,9 @@ In order to start the installation just SSH to your fresh OSMC installation in t
 
 	ssh osmc@YOUR_OSMC_IP
 
-Then the installation starts by copy-pasting this line:
+Then the installation starts by copy-pasting these lines:
 
-	bash <(curl -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -s 'https://raw.githubusercontent.com/alombarte/raspberry-osmc-automated/master/install.sh') /home/osmc/.raspberry-osmc-automated  2>&1 | tee /home/osmc/.raspberry-osmc-automated/logs/installation.log
+	bash <(curl -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -s 'https://raw.githubusercontent.com/alombarte/raspberry-osmc-automated/master/install.sh') /home/osmc/.raspberry-osmc-automated  2>&1 | tee installation.log
 
 The installation script will download all necessary files and will configure the raspberry for you. At the beginning of the installation process you will be asked for your `RSS feed` URL, your IP and the mountpoint of your external storage (if any). Once you have answered the questions, leave the computer and do something else. The process is long, and if there is anything broken you will be able to see it in the `installation.log`.
 
