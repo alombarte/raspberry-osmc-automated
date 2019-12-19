@@ -1,3 +1,5 @@
+### ⚠️⚠️ Last tested version of OSMC is [**2018.03-2**](https://osmc.tv/download/images/). Newer versions probably need tweaking
+
 Build status: [![Build Status](https://travis-ci.org/alombarte/raspberry-osmc-automated.svg?branch=master)](https://travis-ci.org/alombarte/raspberry-osmc-automated)
 
 Setup of a **media center**  with **automated episode downloads** in the background.
