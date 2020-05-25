@@ -15,7 +15,9 @@ CONFIG_RSS_FEED=$(echo "$3" | sed -e 's/[\/&]/\\&/g')
 sudo apt-get install python-pip python-setuptools --yes
 # six>=1.9.0 to run flex needed:
 sudo pip install six --upgrade
-sudo easy_install flexget
+# Only flexget 2.x.x is supported by Python 2.7
+sudo pip install --upgrade setuptools
+sudo pip install "flexget>=2.0,<3.0"
 
 # Add FlexGet configuration:
 mkdir -p ~/.flexget
